@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Save to Links Manager</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="app">
+    <div class="header">
+      <h1>Links Manager</h1>
+    </div>
+
+    <div id="loading" class="state">
+      <div class="spinner"></div>
+      <p>Loading…</p>
+    </div>
+
+    <div id="main" class="hidden">
+      <div class="url-box">
+        <label class="label">URL</label>
+        <input id="url-input" type="url" placeholder="https://..." />
+      </div>
+
+      <div class="boards-section">
+        <label class="label">Save to boards</label>
+        <div id="boards-list"></div>
+      </div>
+
+      <div id="error" class="error hidden"></div>
+
+      <div class="actions">
+        <button id="save-btn" class="btn-primary">Save Link</button>
+      </div>
+    </div>
+
+    <div id="success" class="state hidden">
+      <div class="check">✓</div>
+      <p>Link saved!</p>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
