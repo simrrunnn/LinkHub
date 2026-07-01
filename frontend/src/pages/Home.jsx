@@ -55,7 +55,7 @@ export default function Home() {
   const activeBoard = boards.find(b => b.id === activeBoardId);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen" style={{ backgroundColor: '#faf8ff' }}>
       <BoardSidebar
         boards={boards}
         activeBoardId={activeBoardId}
@@ -64,28 +64,43 @@ export default function Home() {
         onBoardDeleted={handleBoardDeleted}
       />
 
-      <main className="flex-1 p-6 overflow-auto">
-        <div className="flex items-center justify-between mb-6">
+      <main className="flex-1 p-8 overflow-auto">
+        <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-2xl font-bold tracking-tight" style={{ color: '#3b2f6e' }}>
               {activeBoard ? activeBoard.name : 'All Links'}
             </h2>
-            <p className="text-sm text-gray-400 mt-0.5">{links.length} link{links.length !== 1 ? 's' : ''}</p>
+            <p className="text-sm mt-0.5" style={{ color: '#b8aad8' }}>
+              {links.length} {links.length !== 1 ? 'links' : 'link'}
+            </p>
           </div>
           <button
             onClick={() => setShowAddLink(true)}
-            className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors shadow-sm"
+            className="flex items-center gap-2 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all hover:-translate-y-0.5"
+            style={{ backgroundColor: '#a78bfa', boxShadow: '0 4px 14px rgba(167,139,250,0.4)' }}
+            onMouseEnter={e => e.currentTarget.style.backgroundColor = '#8b5cf6'}
+            onMouseLeave={e => e.currentTarget.style.backgroundColor = '#a78bfa'}
           >
-            + Add Link
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Add Link
           </button>
         </div>
 
         {loading ? (
-          <div className="flex items-center justify-center h-64 text-gray-400">Loading…</div>
+          <div className="flex items-center justify-center h-64">
+            <div className="w-8 h-8 rounded-full animate-spin" style={{ border: '2px solid #ede9fe', borderTopColor: '#a78bfa' }} />
+          </div>
         ) : links.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-64 text-center">
-            <p className="text-gray-400 text-lg mb-2">No links here yet</p>
-            <p className="text-gray-300 text-sm">Right-click any link in Chrome or use the + button above</p>
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4" style={{ backgroundColor: '#ede9fe' }}>
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#a78bfa" strokeWidth="1.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+            </div>
+            <p className="font-semibold mb-1" style={{ color: '#6d4fc0' }}>No links here yet</p>
+            <p className="text-sm" style={{ color: '#b8aad8' }}>Right-click any link in Chrome or use the + button above</p>
           </div>
         ) : (
           <Masonry breakpointCols={breakpoints} className="my-masonry-grid" columnClassName="my-masonry-grid_column">

@@ -8,7 +8,9 @@ import errorHandler from "./middleware/errorHandler.js";
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({ origin: ["http://localhost:5173", "chrome-extension://*"] }));
+const allowedOrigins = ["http://localhost:5173", "chrome-extension://*"];
+if (process.env.FRONTEND_URL) allowedOrigins.push(process.env.FRONTEND_URL);
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 app.use("/api/boards", boardsRouter);

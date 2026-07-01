@@ -30,11 +30,25 @@ export default function AddLinkModal({ boards, onAdded, onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-800">Save a Link</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">×</button>
+    <div
+      className="fixed inset-0 flex items-center justify-center z-50 p-4"
+      style={{ backgroundColor: 'rgba(59,47,110,0.35)', backdropFilter: 'blur(4px)' }}
+    >
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6" style={{ border: '1px solid #ede9fe' }}>
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h2 className="text-lg font-bold" style={{ color: '#3b2f6e' }}>Save a Link</h2>
+            <p className="text-xs mt-0.5" style={{ color: '#b8aad8' }}>Paste a URL to save and preview it</p>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-lg transition-all text-xl leading-none"
+            style={{ color: '#c4b5fd' }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f2ff'; e.currentTarget.style.color = '#7c3aed'; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.color = '#c4b5fd'; }}
+          >
+            ×
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -44,26 +58,32 @@ export default function AddLinkModal({ boards, onAdded, onClose }) {
             value={url}
             onChange={e => setUrl(e.target.value)}
             placeholder="https://..."
-            className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            className="w-full rounded-xl px-4 py-3 text-sm focus:outline-none placeholder-violet-300 transition-all"
+            style={{ border: '1px solid #ddd6fe', color: '#3b2f6e', '--tw-ring-color': '#c4b5fd' }}
+            onFocus={e => e.target.style.borderColor = '#a78bfa'}
+            onBlur={e => e.target.style.borderColor = '#ddd6fe'}
           />
 
           {boards.length > 0 && (
             <div>
-              <p className="text-xs text-gray-500 mb-2 font-medium">Add to boards (optional)</p>
+              <p className="text-xs font-semibold mb-2.5 uppercase tracking-wider" style={{ color: '#c4b5fd' }}>Add to boards</p>
               <div className="flex flex-wrap gap-2">
                 {boards.map(board => (
                   <button
                     key={board.id}
                     type="button"
                     onClick={() => toggleBoard(board.id)}
-                    className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border transition-all ${
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all"
+                    style={
                       selectedBoards.includes(board.id)
-                        ? 'text-white border-transparent'
-                        : 'text-gray-600 border-gray-200 hover:border-gray-300'
-                    }`}
-                    style={selectedBoards.includes(board.id) ? { backgroundColor: board.color, borderColor: board.color } : {}}
+                        ? { backgroundColor: board.color, borderColor: board.color, color: 'white' }
+                        : { backgroundColor: '#faf8ff', borderColor: '#ddd6fe', color: '#9585c8' }
+                    }
                   >
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: board.color }} />
+                    <span
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{ backgroundColor: selectedBoards.includes(board.id) ? 'rgba(255,255,255,0.7)' : board.color }}
+                    />
                     {board.name}
                   </button>
                 ))}
@@ -71,18 +91,43 @@ export default function AddLinkModal({ boards, onAdded, onClose }) {
             </div>
           )}
 
-          {error && <p className="text-xs text-red-500">{error}</p>}
+          {error && (
+            <div className="flex items-center gap-2 text-xs px-3 py-2.5 rounded-lg" style={{ color: '#ef4444', backgroundColor: '#fff1f2' }}>
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {error}
+            </div>
+          )}
 
-          <div className="flex gap-2 justify-end">
-            <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-gray-500 hover:text-gray-700">
+          <div className="flex gap-2.5 justify-end pt-1">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2.5 text-sm font-medium transition-colors rounded-xl"
+              style={{ color: '#b8aad8' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#f5f2ff'; e.currentTarget.style.color = '#7c3aed'; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.color = '#b8aad8'; }}
+            >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2 bg-indigo-500 text-white text-sm rounded-xl hover:bg-indigo-600 disabled:opacity-60 transition-colors font-medium"
+              className="px-6 py-2.5 text-white text-sm rounded-xl disabled:opacity-60 transition-all font-semibold"
+              style={{ backgroundColor: '#a78bfa', boxShadow: '0 4px 14px rgba(167,139,250,0.35)' }}
+              onMouseEnter={e => { if (!loading) e.currentTarget.style.backgroundColor = '#8b5cf6'; }}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = '#a78bfa'}
             >
-              {loading ? 'Fetching preview…' : 'Save Link'}
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin w-3.5 h-3.5" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Fetching…
+                </span>
+              ) : 'Save Link'}
             </button>
           </div>
         </form>
