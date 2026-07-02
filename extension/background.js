@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE = 'https://linkhub-p9qi.onrender.com/api';
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Save links to your Links Manager boards with a right-click.",
   "permissions": ["contextMenus", "storage"],
-  "host_permissions": ["http://localhost:3001/*"],
+  "host_permissions": ["https://linkhub-p9qi.onrender.com/*"],
   "background": {
     "service_worker": "background.js"
   },
